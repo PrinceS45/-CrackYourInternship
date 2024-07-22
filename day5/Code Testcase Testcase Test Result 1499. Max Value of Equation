@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findMaxValueOfEquation(vector<vector<int>>& points, int k) {
+        // BRUTE FOARCE
+        // int ans = INT_MIN ;
+        // for(int i = 0 ; i < points.size() -1 ; i++) {
+        //     for(int j = i+1 ; j < points.size() ;j++) {
+        //         int xi = points[i][0] , xj = points[j][0] ;
+        //         int yi = points[i][1] , yj = points[j][1] ;
+        //      if(abs(xi - xj) <= k) ans= max(ans,yi + yj + abs(xi - xj)) ;
+        //     }
+
+        // USING MAX HEAP
+       int ans = INT_MIN;
+        priority_queue<pair<int, int>> pq; // (yi - xi, xi)
+        int n = points.size();
+        for (int i = 0; i < n; i++) {
+            while (!pq.empty() && (points[i][0] - pq.top().second) > k) {
+                pq.pop();
+            }
+            if (!pq.empty()) {
+                auto p = pq.top();
+                ans = max(ans, p.first + points[i][1] + points[i][0]);
+            }
+            pq.push(make_pair(points[i][1] - points[i][0], points[i][0]));
+        }
+        return ans;
+    }
+
+};
