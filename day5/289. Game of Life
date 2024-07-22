@@ -1,0 +1,39 @@
+class Solution {
+public: // UL U UR R DR D DL L
+    int r[8] = {-1, -1, -1, 0, 1, 1, 1, 0};
+    int c[8] = {-1, 0, 1, 1, 1, 0, -1, -1};
+    void gameOfLife(vector<vector<int>>& matrix) {
+        int row = matrix.size();
+        int col = matrix[0].size();
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                int live = helper(matrix, i, j);
+                // use matrker 0 -> 1 = 2 and 1 -> 0 -1;
+                if (matrix[i][j] == 0 && live == 3)
+                    matrix[i][j] = 2; // Dead to live
+                else if (matrix[i][j] == 1 && (live < 2 || live > 3))
+                    matrix[i][j] = -1; // Live to dead
+            }
+        }
+
+        for (vector<int>& x : matrix) {
+            for (int& i : x) {
+                if (i == -1)
+                    i = 0;
+                else if (i == 2)
+                    i = 1;
+            }
+        }
+    }
+    int helper(vector<vector<int>>& board, int i, int j) {
+        int count = 0;
+        int m = board.size(), n = board[0].size();
+        for (int k = 0; k < 8; k++) {
+            int row = i + r[k], col = j + c[k];
+            if (row >= 0 && col >= 0 && row < m && col < n &&
+                abs(board[row][col]) == 1)
+                count++;
+        }
+        return count;
+    }
+};
