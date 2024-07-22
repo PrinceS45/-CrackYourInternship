@@ -1,0 +1,28 @@
+class Solution {
+ 
+  public:
+  vector<vector<int>> ans ;
+    vector<vector<int>> uniquePerms(vector<int> &arr ,int n) {
+        // code here
+        helper(0,arr) ; 
+        sort(ans.begin(),ans.end());
+        return ans ;
+        
+    }
+    void helper(int i ,vector<int> & nums) {
+        if(i == nums.size()) {
+            ans.push_back(nums) ; 
+            return ;
+        }
+        
+        vector<bool> visited(9,0) ;
+        for(int idx = i ; idx < nums.size() ; idx++) {
+            if(!visited[nums[idx]-1]) {
+                swap(nums[i] , nums[idx]) ; 
+                helper(i+1 , nums) ; 
+                swap(nums[i],nums[idx]) ;
+                visited[nums[idx]-1] = 1;
+            }
+        }
+    }
+};
