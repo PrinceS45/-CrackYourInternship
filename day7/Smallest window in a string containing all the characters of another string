@@ -1,0 +1,33 @@
+
+string smallestWindow (string s, string p)
+    {
+       int n = s.size() ; 
+       vector<int> m(26,0) ;
+       int req = 0;
+       for(char c : p) { m[c-'a'] +=1 ; req++ ; }
+       int i = 0 , j = 0 ;
+       int ans = INT_MAX ;
+       int start_index = -1 ;
+       while( j < n ) {
+          m[s[j] -'a'] -=1 ;
+          if(m[s[j]-'a'] >= 0) req-- ; 
+          
+          // decrese windows size if all requrment is found
+          while( i <= j && req==0  ) {
+              if(j - i +1 < ans) {
+                  ans = j - i + 1 ; 
+                  start_index = i ;
+              }
+              m[s[i]-'a'] ++ ;
+              if(m[s[i]-'a'] > 0) req++ ;
+              i++ ;
+          }
+          j++ ;
+          
+          
+           }
+           if(ans ==0 ) return "-1" ; 
+           return s.substr(start_index , ans ) ;
+           
+       }
+       
