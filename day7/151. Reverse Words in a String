@@ -1,0 +1,45 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        // using stack
+        //    stack<string> st ;
+        //    int n = s.size() ;
+        //    for(int i =0  ; i < n ;i++) {
+        //     if( s[i] ==' ') continue  ;
+        //     string temp ;
+        //     while( i <n && s[i] != ' ') {
+        //         temp += s[i] ;
+        //         i++;
+        //     }
+        //     st.push(temp) ;
+
+        //    }
+        //    string ans ;
+        //    while(! st.empty()) {
+        //     ans = ans+st.top() + " ";
+        //     st.pop() ;
+        //    }
+        //    return ans.substr(0,ans.size()-1);
+
+        // two pointer approach
+        string ans;
+        int i = 0, n = s.size();
+        while (i < n) {
+            while (i < n & s[i] == ' ')
+                i++;
+            if (i >= n)
+                break;
+            int j = i + 1;
+            while (j < n && s[j] != ' ') {
+                j++;
+            }
+            string t = s.substr(i, j - i);
+            if (ans.size() == 0)
+                ans = t;
+            else
+                ans = t + " " + ans;
+            i = j + 1;
+        }
+        return ans;
+    }
+};
