@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int calculate(string nums) {
+        int n = nums.size();
+        stack<int> st;
+        char prev = '+';
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == ' ')
+                continue;
+            else if (!isdigit(nums[i]))
+                prev = nums[i];
+            else {
+                string temp;
+                while (i < n && isdigit(nums[i]))
+                    temp += nums[i++];
+                i--;
+                int num = stoi(temp);
+                if (prev == '+')
+                    st.push(num);
+                else if (prev == '-')
+                    st.push(-1 * num);
+                else if (prev == '*') {
+                    int t = st.top();
+                    st.pop();
+                    st.push((num)*t);
+                } else {
+                    int t = st.top();
+                    st.pop();
+                    st.push(t / (num));
+                }
+                temp = "";
+            }
+        }
+        int ans = 0;
+        while (!st.empty()) {
+            ans += st.top();
+            st.pop();
+        }
+        return ans;
+    }
+};
