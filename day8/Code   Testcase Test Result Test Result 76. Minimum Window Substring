@@ -1,0 +1,33 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        vector<int> m(256, 0);
+        int n = s.size();
+        int i = 0, j = 0;
+        int req = 0;
+        for (char c : t) {
+            m[c]++;
+            req++;
+        }
+        int index = -1;
+        int ans = INT_MAX;
+        while (j < n) {
+            m[s[j]]--;
+            if (m[s[j]] >= 0)
+                req--;
+            while (i <= j && req == 0) {
+                if (j - i + 1 < ans) {
+                    ans = j - i + 1;
+                    index = i;
+                }
+                m[s[i]]++;
+                if (m[s[i]] > 0)
+                    req++;
+                i++;
+            }
+            j++;
+        }
+
+  return  (ans == INT_MAX ? "" : s.substr(index,ans))  ;
+    }
+};
