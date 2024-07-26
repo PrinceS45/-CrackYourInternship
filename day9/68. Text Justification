@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int mw;
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        int n = words.size();
+        vector<string> ans;
+        mw = maxWidth;
+        int i = 0;
+        while (i < n) {
+            int letter_count = words[i].size();
+            int j = i + 1;
+            int gaddhe = 0;
+            while (j < n &&
+                   letter_count + gaddhe + words[j].length() + 1 <= maxWidth) {
+                letter_count += words[j].length();
+                gaddhe += 1;
+                j++;
+            }
+            int remGd = maxWidth - letter_count;
+            int eachGd = gaddhe == 0 ? 0 : remGd / gaddhe;
+            int extra = gaddhe == 0 ? 0 : remGd % gaddhe;
+
+            // last line
+            if (j == n) {
+                eachGd = 1;
+                extra = 0;
+            }
+
+            ans.push_back(find_line(words, i, j, eachGd, extra));
+            i = j;
+        }
+        return ans;
+    }
+    string find_line(vector<string>& words, int i, int j, int eachGd, int e) {
+        string line;
+        for (int k = i; k < j; k++) {
+            line += words[k];
+            if (k == j - 1)
+                continue; // last word doesnot contain space further
+
+            for (int z = 1; z <= eachGd; z++) {
+                line += " ";
+            }
+            if (e > 0) {
+                line += " ";
+                e--;
+            }
+        }
+        while (line.size() < mw)
+            line += " ";
+        return line;
+    }
+};
