@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int n = matrix.size() ,m = matrix[0].size() ; 
+        vector<int> temp(m,0) ; 
+        int ans =INT_MIN;
+
+        for(int i = 0 ; i <n ; i++ ) {
+            for(int j=0 ; j < m ; j++) {
+               if(matrix[i][j]=='1') temp[j] += 1 ; 
+               else temp[j] = 0 ; 
+            }
+             ans = max(ans , helper(temp)) ; 
+        }
+        return ans ;
+    }
+  int helper(vector<int> & temp ) {
+         stack<int> st ; 
+     int ans = INT_MIN , m= temp.size() ;
+     
+     for(int i =0 ; i < m  ; i++) {
+          while(! st.empty() && temp[i] < temp[st.top()]) {
+              int ele = st.top() ;st.pop() ; 
+              int nse = i ; 
+              int pse = st.empty() ? -1 : st.top() ;
+              ans = max(ans,(nse -pse-1) *temp[ele] ) ;
+          }
+          st.push(i) ;
+     }
+     while(! st.empty()) {
+         int ele = temp[st.top()] ;st.pop() ; 
+              int nse = m ; 
+              int pse = st.empty() ? -1 : st.top() ;
+              ans = max(ans,(nse -pse-1) * ele ) ;
+     }
+     return ans ;
+
+  }
+  
+  
+
+};
