@@ -1,0 +1,43 @@
+class Solution {
+  public:
+    // Function to find minimum number of pages.
+    long long findPages(int n, int arr[], int m) {
+        // code here
+         if(n < m)
+            return -1;
+        int sum = 0;
+        for(int i=0 ; i < n ; i++) {
+            sum+=arr[i] ;
+        }
+        int s = 0 , e = sum ; 
+        long long ans = -1 ;
+         while(s <= e) {
+             
+             int mid = (s+(e-s) / 2) ;
+              if(canDis(mid , arr , m , n) ) {
+                  ans = mid ; 
+                  e = mid-1 ;
+              }
+              else s = mid +1 ;
+             
+             
+         }
+         return ans ;
+    }
+    
+    bool canDis(int mid , int arr[] , int stu, int n) {
+          int reqStu = 1, currSum = 0 ;
+          for(int i =0 ; i < n ; i++) {
+              if(arr[i] > mid ) return false ;
+              else if(arr[i] + currSum > mid) {
+                  reqStu++ ; 
+                  if(reqStu > stu) return false ;
+                  currSum = arr[i] ; 
+              }
+              else {
+                  currSum += arr[i] ;
+              }
+          }
+         
+          return true ;
+    }
