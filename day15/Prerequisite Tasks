@@ -1,0 +1,34 @@
+public:
+	bool isPossible(int N,int P, vector<pair<int, int> >& prerequisites) {
+	    // Code here
+	     vector<int> adj[N] ; 
+	       vector<int> ind(N,0) ;
+	     for(auto v : prerequisites) {
+	         adj[v.first].push_back(v.second) ;
+	         ind[v.second]++ ;
+	     }
+	      int V = N;
+	    
+	    queue<int> q ;
+	    
+	    for(int i =0 ; i < V ;i++) {
+	        if(! ind[i]) q.push(i) ;
+	        
+	    }
+	   
+	   int count=0 ;
+
+	    while(! q.empty()) {
+	        int node = q.front() ;
+	        q.pop() ; 
+	        count++ ;
+	    
+	        for(int i =0 ; i < adj[node].size() ; i++) {
+	            
+	            ind[adj[node][i]]--;
+	            if(ind[adj[node][i]] == 0) q.push(adj[node][i]) ;
+	        }
+	    }
+	    return count== N ; 
+	}
+};
