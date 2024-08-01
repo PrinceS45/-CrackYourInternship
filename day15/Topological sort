@@ -1,0 +1,38 @@
+class Solution
+{
+	public:
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // code here
+	    // apply khan algo using bfs 
+	    vector<int> ind(V,0) ;
+	    queue<int> q ;
+	    for(int i = 0 ;i < V ; i++) {
+	        for(int j = 0 ; j < adj[i].size() ; j++) {
+	            ind[adj[i][j]] ++ ; 
+	        }
+	    }
+	    
+	    for(int i =0 ; i < V ;i++) {
+	        if(! ind[i]) q.push(i) ;
+	        
+	    }
+	    vector<int> ans ;
+
+	    while(! q.empty()) {
+	        int node = q.front() ;
+	        q.pop() ; 
+	     
+	        ans.push_back(node) ;
+	        for(int i =0 ; i < adj[node].size() ; i++) {
+	            
+	            ind[adj[node][i]]--;
+	            if(ind[adj[node][i]] == 0) q.push(adj[node][i]) ;
+	        }
+	    }
+	    return ans; 
+	    
+	    
+	}
+};
