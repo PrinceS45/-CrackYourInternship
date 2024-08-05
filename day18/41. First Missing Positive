@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        // Apply pegion hole principle 
+        // we know our answer aways in range [1,n]
+        // if absolute value of any number lies in this range make -ve at 
+        // at that index if number already -ve don't make changes 
+        int n = nums.size() ; 
+        // use n+1 as marker
+        for(int i =0 ; i < n ; i++) {
+            if(nums[i] <= 0 || nums[i] >= (n+1)) {
+                nums[i] = n+1 ;
+               
+            }
+        }
+         //allocarte seat 
+         for(int i=0  ; i < n ;i++) {
+              int value =  abs(nums[i]) ; 
+              if(value == n+1) continue ;
+              int pos = value -1 ; 
+              if(nums[pos] > 0) {
+                nums[pos] = -nums[pos] ;
+              }
+         }     
+         // cheack for first positive number 
+
+          for(int i =0 ; i < n ; i++) {
+            if(nums[i]> 0 ) return i+1 ;
+          }
+          return n+1 ;
+             
+    }
+};
