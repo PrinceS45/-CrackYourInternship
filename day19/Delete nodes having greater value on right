@@ -1,0 +1,51 @@
+/*
+
+The structure of linked list is the following
+
+struct Node
+{
+    int data;
+    Node* next;
+    
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+class Solution
+{
+    public:
+    Node* rev(Node * head ) {
+          Node* curr = head , * prev = NULL , *next=NULL ; 
+          while(curr) {
+              next = curr->next ; 
+              curr->next = prev ; 
+              prev = curr ; 
+              curr = next ; 
+          }
+          return prev  ; 
+    }
+    
+    Node *compute(Node *head)
+    {
+        // your code goes here
+        head = rev(head) ; 
+        int maxi = head->data ;
+          Node * curr = head->next , *prev = head ; 
+          while(curr) {
+              if(curr->data < maxi) {
+                  prev->next = curr->next ;
+                  curr = curr->next ;
+              }
+              else {
+                  maxi = curr->data ;
+                  curr=curr->next ; 
+                  prev = prev->next ; 
+              }
+          }
+          return rev(head ) ;
+    }
+    
+};
+   
