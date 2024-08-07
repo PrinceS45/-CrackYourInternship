@@ -1,0 +1,39 @@
+class Solution {
+public:
+    string blw10[10] = {"",     "One", "Two",   "Three", "Four",
+                        "Five", "Six", "Seven", "Eight", "Nine"};
+    string blw20[10] = {"Ten",      "Eleven",  "Twelve",  "Thirteen",
+                        "Fourteen", "Fifteen", "Sixteen", "Seventeen",
+                        "Eighteen", "Nineteen"};
+
+    string blw100[10] = {"",      "Ten",   "Twenty",  "Thirty", "Forty",
+                         "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+
+    string numberToWords(int num) {
+        if (num == 0)
+            return "Zero";
+        else if (num < 10)
+            return blw10[num];
+        else if (num < 20)
+            return blw20[num - 10];
+        else if (num < 100)
+            return blw100[num / 10] +
+                   (num % 10 != 0 ? " " + blw10[num % 10] :"");
+        else if (num < 1000)
+            return blw10[num / 100] + " Hundred" +
+                   (num % 100 != 0 ? " " + numberToWords(num % 100) : "");
+        // 999 999
+        else if (num < 1000000)
+            return numberToWords(num / 1000) + " Thousand" +
+                   (num % 1000 != 0 ? " " +numberToWords(num % 1000) : "");
+        // 999 999 999
+        else if (num < 1000000000)
+            return numberToWords(num / 1000000) + " Million" +
+                   (num % 1000000 != 0 ? " " + numberToWords(num % 1000000) : "");
+
+        else // 999 999 999 999
+            return numberToWords(num / 1000000000) + " Billion" +
+                   (num % 1000000000 != 0 ? " " + numberToWords(num % 1000000000)
+                                          : "");
+    }
+};
