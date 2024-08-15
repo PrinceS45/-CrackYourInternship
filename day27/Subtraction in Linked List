@@ -1,0 +1,84 @@
+class Solution {
+public:
+    Node* subLinkedList(Node* head1, Node* head2) {
+        // Your implementation of subLinkedList goes here
+        // Make sure to return the head of the resulting linked list
+        
+        // step 1 -> remove unwnated zero 
+        while(head1 && head1->data == 0) head1=head1->next ; 
+        while(head2 && head2->data == 0) head2=head2->next ; 
+      if (head1 == nullptr && head2 == nullptr) {
+            return new Node(0);
+        }
+        // step 2 -> find greater linkedList 
+        Node * res = NULL ;
+       int l1 = getLen(head1) ; 
+        int  l2 = getLen(head2) ; 
+        if(l1 > l2) res = sub(head1 , head2) ; 
+        else if(l1 < l2) res = sub(head2 , head1) ; 
+        else {
+              Node * g ,* s , * ptr1 = head1 , * ptr2 = head2 ; 
+        
+                 while(ptr1&& ptr2 &&ptr1->data == ptr2->data) {
+                     ptr1= ptr1->next ; ptr2 = ptr2->next  ; 
+                 }
+                 if(! ptr1 && ! ptr2) return new Node(0) ;
+                 if(ptr1 && ptr2 && ptr1->data > ptr2->data ) {
+                     g = head1 ; 
+                     s = head2 ; }
+                 else if(ptr1 && ptr2 &&ptr2->data > ptr1->data) {
+                     g = head2 ; s = head1 ;
+                 }
+                 res = sub(g,s) ; 
+                   
+              
+        }
+         return res ;
+       
+    }
+    
+    Node* sub (Node * head1 , Node* head2) {
+          head1= rev(head1) ;
+          head2 = rev(head2) ; 
+          Node* ans = new Node(-1) ; 
+        Node* dummy = ans ; 
+         int carry = 0 ; 
+          while(head1 || head2) {
+                int d1 = head1 ? head1->data : 0 ; 
+                int d2 = head2 ? head2->data : 0 ; 
+                int sub = d1 - d2-carry ; 
+                if(sub < 0) {
+                    sub+= 10 ;
+                carry = 1 ; 
+                }
+                else carry = 0 ; 
+                dummy->next = new Node(sub) ; 
+                dummy = dummy ->next ; 
+                if(head1 ) head1 = head1->next ; 
+                if(head2 ) head2 = head2->next ; 
+                
+          }
+              ans = rev(ans->next) ; 
+              while(ans && ans->data == 0) ans = ans ->next ; 
+              return ans ? ans : new Node(0) ;
+             
+    }
+    Node* rev(Node * head) {
+        if(! head || ! head->next) return head ; 
+        Node * newHead = rev(head->next) ; 
+        head->next->next = head ; 
+        head->next = NULL ; 
+        return newHead ; 
+    }
+    
+    
+    
+     int getLen(Node* ptr) {
+          int count = 0 ; 
+          while(ptr) {
+              count ++ ; 
+              ptr=ptr->next ; 
+          }
+          return count ; 
+     }
+};
