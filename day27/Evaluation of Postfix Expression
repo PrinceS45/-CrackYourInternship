@@ -1,0 +1,29 @@
+class Solution
+{
+    public:
+    //Function to evaluate a postfix expression.
+    int evaluatePostfix(string S)
+    {
+        // Your code here
+        stack<int> s1 ; 
+     
+          for(char ch : S) {
+              if(isdigit(ch)) s1.push(ch-'0') ; 
+              else {
+                  int b = s1.top() ; s1.pop() ; 
+                  int a = s1.top() ; s1.pop() ; 
+                  int sol = solve(a,b,ch) ; 
+                  s1.push(sol) ; 
+              }
+          }
+              return s1.top() ; 
+        
+    }
+    int solve (int a , int b , char ch) { 
+        if(ch=='+' ) return a+ b ; 
+        else if(ch == '-' ) return a - b ; 
+        else if (ch == '*' ) return a *b ; 
+        else return a / b ; 
+        
+    }
+};
