@@ -1,0 +1,29 @@
+/*The Node structure is
+struct Node {
+int data;
+Node * right, * left;
+};*/
+
+/*You are required to complete below method */
+class Solution{
+  public:
+     bool isDeadEnd(Node* root) {
+        return helper(root, 1, 10001);
+    }
+
+    bool helper(Node* root, int minVal, int maxVal) {
+        if (root == nullptr) {
+            return false; // Base case: not a dead end
+        }
+
+        if (root->data <= minVal+1 && root->data >= maxVal-1) {
+            return true; // Found a dead end
+        }
+
+        // Recurse for left and right subtrees
+        bool leftDeadEnd = helper(root->left, minVal, root->data);
+        bool rightDeadEnd = helper(root->right, root->data, maxVal);
+
+        return leftDeadEnd || rightDeadEnd;
+    }
+};
