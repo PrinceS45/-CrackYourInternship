@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numTrees(int n) {
+        vector<vector<int>> dp(n+1 ,vector<int>(n+1, -1)) ; 
+        return helper(1 , n , dp) ; 
+    }
+    
+     int helper(int s , int e , vector<vector<int>> & dp) {
+        if(s > e) return 1 ; 
+        if(dp[s][e] != -1) return dp[s][e] ;  
+          int ans = 0 ; 
+        for(int i = s ; i <= e ; i++) {
+            int left = helper(s , i-1 , dp) ; 
+             int right = helper(i+1 , e , dp) ; 
+              ans += left * right ;
+        }
+         return dp[s][e] = ans ; 
+     }
+};
